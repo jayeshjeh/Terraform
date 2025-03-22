@@ -13,3 +13,5 @@ public_subnet3_name = "Terraform_Public_Subnet3-uat"
 Main_Routing_Table = "Terraform_Main_table-uat"
 key_name           = "us"
 environment        = "dev"
+env = "uat"
+
