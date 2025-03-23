@@ -21,7 +21,7 @@ resource "aws_db_instance" "prod_db_instance" {
     allocated_storage = 20
     storage_type = "gp2"
     engine = "mysql"
-    engine_version = "5.7"
+    engine_version = "8.0.40"
     instance_class = "db.t2.micro"
     db_name = "prod-db-instance"
     username = "admin"
