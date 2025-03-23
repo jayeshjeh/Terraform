@@ -22,7 +22,7 @@ resource "aws_db_instance" "prod_db_instance" {
     storage_type = "gp2"
     engine = "mysql"
     engine_version = "8.0.40"
-    instance_class = "db.t2.micro"
+    instance_class = "db.t3.micro"
     db_name = "prod-db-instance"
     username = "admin"
     password = data.aws_secretsmanager_secret_version.db_secret_version.secret_string
