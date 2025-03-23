@@ -17,7 +17,7 @@ resource "aws_db_subnet_group" "prod_subnet_group" {
 }
 
 resource "aws_db_instance" "prodDB" {
-    identifier = "prodDB"
+    identifier = "proddb"
     allocated_storage = 20
     storage_type = "gp2"
     engine = "mysql"
