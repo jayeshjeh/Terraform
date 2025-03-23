@@ -16,7 +16,7 @@ resource "aws_db_subnet_group" "prod_subnet_group" {
     }   
 }
 
-resource "aws_db_instance" "prod_db_instance" {
+resource "aws_db_instance" "prodDB" {
     identifier = "prod-db-instance"
     allocated_storage = 20
     storage_type = "gp2"
