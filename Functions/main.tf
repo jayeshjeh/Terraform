@@ -131,6 +131,14 @@ resource "aws_security_group" "allow_all" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  tags = {
+    Name        = "${var.vpc_name}-SG"
+    Owner       = local.Owner
+    CostCenter  = local.CostCenter
+    TeamDL      = local.TeamDL
+    environment = "${var.environment}"
+  }
 }
 
 # data "aws_ami" "my_ami" {
