@@ -4,15 +4,18 @@ resource "aws_instance" "public-servers" {
     availability_zone = "us-east-1a"
     instance_type = "t2.micro"
     key_name = var.keyname
-    subnet_id = "${aws_subnet.subnet1-public.id}"
+    subnet_id = element(aws_subnet.public-subnets[*].id, count.index)
     vpc_security_group_ids = ["${aws_security_group.allow_all.id}"]
     associate_public_ip_address = true	
+
     tags = {
-        Name = "Server-1"
-        Env = "Prod"
-        Owner = "sai"
-	CostCenter = "ABCD"
+        Name        = "${var.vpc_name}-public-server-${count.index + 1}"
+        Owner       = local.Owner
+        CostCenter  = local.CostCenter
+        TeamDL      = local.TeamDL
+        environment = "${var.environment}"
     }
+    
      user_data = <<-EOF
      #!/bin/bash
      	sudo apt-get update
