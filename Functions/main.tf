@@ -28,8 +28,13 @@ resource "aws_vpc" "default" {
 
 resource "aws_internet_gateway" "default" {
   vpc_id = aws_vpc.default.id
+
   tags = {
-    Name = "${var.vpc_name}-IGW"
+    Name        = "${var.vpc_name}-IGW"
+    Owner       = local.Owner
+    CostCenter  = local.CostCenter
+    TeamDL      = local.TeamDL
+    environment = "${var.environment}"
   }
 }
 
@@ -39,7 +44,7 @@ resource "aws_subnet" "public-subnets" {
   cidr_block        = element(var.public_cidr_block, count.index)
   availability_zone = element(var.azs, count.index)
   tags = {
-    Name        = "${var.vpc_name}"
+    Name        = "${var.vpc_name}-public-subnet-${count.index}"
     Owner       = local.Owner
     CostCenter  = local.CostCenter
     TeamDL      = local.TeamDL
@@ -54,7 +59,7 @@ resource "aws_subnet" "private-subnets" {
   cidr_block        = element(var.private_cidr_block, count.index)
   availability_zone = element(var.azs, count.index)
   tags = {
-    Name        = "${var.vpc_name}"
+    Name        = "${var.vpc_name}-private-subnet-${count.index}"
     Owner       = local.Owner
     CostCenter  = local.CostCenter
     TeamDL      = local.TeamDL
@@ -64,26 +69,27 @@ resource "aws_subnet" "private-subnets" {
 
 resource "aws_route_table" "public-RT" {
   vpc_id = aws_vpc.default.id
+
   route = {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.default.id
-
+    gateway_id = "${aws_internet_gateway.default.id}"
   }
 
   tags = {
-    Name        = "${var.vpc_name}"
+    Name        = "${var.vpc_name}-public-RT"
     Owner       = local.Owner
     CostCenter  = local.CostCenter
     TeamDL      = local.TeamDL
     environment = "${var.environment}"
   }
+
 }
 
 resource "aws_route_table" "private-RT" {
   vpc_id = aws_vpc.default.id
 
   tags = {
-    Name        = "${var.vpc_name}"
+    Name        = "${var.vpc_name}-private-RT"
     Owner       = local.Owner
     CostCenter  = local.CostCenter
     TeamDL      = local.TeamDL
