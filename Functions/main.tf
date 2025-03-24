@@ -3,6 +3,16 @@ provider "aws" {
   region = var.aws_region
 }
 
+terraform {
+  backend "s3" {
+    bucket = "spaceship970"
+    key    = "functions.tfstate"
+    region = "us-east-1"
+
+  }
+
+}
+
 resource "aws_vpc" "default" {
   cidr_block           = var.vpc_cidr
   enable_dns_hostnames = true
@@ -79,7 +89,7 @@ resource "aws_route_table" "private-RT" {
     TeamDL      = local.TeamDL
     environment = "${var.environment}"
   }
-  
+
 }
 
 
