@@ -98,9 +98,18 @@ resource "aws_route_table" "private-RT" {
 }
 
 
-resource "aws_route_table_association" "terraform-public" {
-  subnet_id      = aws_subnet.subnet1-public.id
-  route_table_id = aws_route_table.terraform-public.id
+resource "aws_route_table_association" "public-subnet-RT-association" {
+  count          = 3
+  subnet_id      = element(aws_subnet.public-subnets[*].id, count.index)
+  route_table_id = aws_route_table.public-RT.id
+  
+}
+
+resource "aws_route_table_association" "private-subnet-RT-association" {
+  count          = 3
+  subnet_id      = element(aws_subnet.private-subnets[*].id, count.index)
+  route_table_id = aws_route_table.private-RT.id
+  
 }
 
 resource "aws_security_group" "allow_all" {
