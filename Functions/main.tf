@@ -70,9 +70,9 @@ resource "aws_subnet" "private-subnets" {
 resource "aws_route_table" "public-RT" {
   vpc_id = aws_vpc.default.id
 
-  route = {
+  route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = "${aws_internet_gateway.default.id}"
+    gateway_id = aws_internet_gateway.default.id
   }
 
   tags = {
@@ -82,7 +82,6 @@ resource "aws_route_table" "public-RT" {
     TeamDL      = local.TeamDL
     environment = "${var.environment}"
   }
-
 }
 
 resource "aws_route_table" "private-RT" {
