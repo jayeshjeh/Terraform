@@ -39,7 +39,8 @@ resource "aws_internet_gateway" "default" {
 }
 
 resource "aws_subnet" "public-subnets" {
-  count             = 3
+  count = length(var.public_cidr_block)
+  # count             = 3
   vpc_id            = aws_vpc.default.id
   cidr_block        = element(var.public_cidr_block, count.index)
   availability_zone = element(var.azs, count.index)
@@ -54,7 +55,7 @@ resource "aws_subnet" "public-subnets" {
 }
 
 resource "aws_subnet" "private-subnets" {
-  count             = 3
+  count = length(var.private_cidr_block)
   vpc_id            = aws_vpc.default.id
   cidr_block        = element(var.private_cidr_block, count.index)
   availability_zone = element(var.azs, count.index)
@@ -99,14 +100,14 @@ resource "aws_route_table" "private-RT" {
 
 
 resource "aws_route_table_association" "public-subnet-RT-association" {
-  count          = 3
+  count = length(aws_subnet.public-subnets[*].id)
   subnet_id      = element(aws_subnet.public-subnets[*].id, count.index)
   route_table_id = aws_route_table.public-RT.id
 
 }
 
 resource "aws_route_table_association" "private-subnet-RT-association" {
-  count          = 3
+  count = length(aws_subnet.private-subnets[*].id)
   subnet_id      = element(aws_subnet.private-subnets[*].id, count.index)
   route_table_id = aws_route_table.private-RT.id
 
