@@ -1,6 +1,6 @@
 resource "aws_instance" "private-servers" {
-#   count                  = length(var.private_cidr_block)
-    count                  = "${var.environment == "prod" ? 3 : 1 }"
+  #   count                  = length(var.private_cidr_block)
+  count                  = var.environment == "prod" ? 3 : 1
   ami                    = lookup(var.amis, var.aws_region)
   instance_type          = "t2.micro"
   key_name               = var.keyname
