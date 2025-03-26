@@ -9,6 +9,6 @@ environment        = "prod"
 keyname            = "us"
 ingress_ports      = ["80", "443", "22", "3389", "8080", "8443", "1900", "1443"]
 amis = {
-  us-east-1 = "ami-0d857ff0f5fc4e03b"
+  us-east-1 = "ami-084568db4383264d4"
   us-east-2 = "ami-04f167a56786e4b09"
 }
