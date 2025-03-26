@@ -16,14 +16,6 @@ resource "aws_instance" "public-servers" {
     environment = "${var.environment}"
   }
 
-  user_data = <<-EOF
-     #!/bin/bash
-     	sudo apt-get update
-     	sudo apt-get install -y nginx
-     	echo "<h1>${var.environment}-Server-1</h1>" | sudo tee /var/www/html/index.html
-        echo "<h1>${var.vpc_name}-public-server-${count.index + 1}</h1>" | sudo tee /var/www/html/index.html
-     	sudo systemctl start nginx
-     	sudo systemctl enable nginx
-     EOF
+
 
 }
