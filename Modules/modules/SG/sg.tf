@@ -1,7 +1,7 @@
 resource "aws_security_group" "allow_all" {
   name        = "${var.vpc_name}-SG"
   description = "Allow all inbound traffic"
-  vpc_id      = aws_vpc.vpc_id
+  vpc_id      = var.vpc_id
 
   dynamic "ingress" {
     for_each = var.ingress_ports
@@ -23,9 +23,6 @@ resource "aws_security_group" "allow_all" {
 
   tags = {
     Name        = "${var.vpc_name}-SG"
-    Owner       = local.Owner
-    CostCenter  = local.CostCenter
-    TeamDL      = local.TeamDL
     environment = "${var.environment}"
   }
 }
