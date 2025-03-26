@@ -6,11 +6,25 @@ resource "null_resource" "cluster" {
 
     connection {
       type        = "ssh"
-      user        = "ec2-user"
+      user        = "ubuntu"
       private_key = file("us.pem")
       host        = element(aws_instance.public-servers.*.public_ip, count.index)
     }
 
   }
 
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/user-data.sh",
+      "sudo /tmp/user-data.sh",
+    ]
+
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = file("us.pem")
+      host        = element(aws_instance.public-servers.*.public_ip, count.index)
+    }
+
+  }
 }
