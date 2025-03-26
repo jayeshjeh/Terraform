@@ -1,10 +1,9 @@
 resource "aws_instance" "public-servers" {
   count                       = length(var.public_cidr_block)
-  ami                         = lookup(var.amis, var.aws_region)
-  availability_zone           = "us-east-1a"
+ami                         = "${lookup(var.amis, var.aws_region)}"
   instance_type               = "t2.micro"
   key_name                    = var.keyname
-  subnet_id                   = element(aws_subnet.public-subnets[*].id, count.index)
+  subnet_id                   = element(aws_subnet.public-subnets.*.id, count.index + 1)
   vpc_security_group_ids      = ["${aws_security_group.allow_all.id}"]
   associate_public_ip_address = true
 
