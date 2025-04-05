@@ -11,7 +11,6 @@ resource "aws_route_table" "public" {
       Owner = local.owner
       CostCenter = local.cost_center
       TeamDL = local.team_dl
-      environment = "${var.environment}"
     }
 }
 
@@ -29,12 +28,11 @@ resource "aws_route_table" "private" {
       Owner = local.owner
       CostCenter = local.cost_center
       TeamDL = local.team_dl
-      environment = "${var.environment}"
     }
 }
 
 resource "aws_route_table_association" "public" {
-    count = length(aws_subnet.public[*].id)
+    count = length(var.private_subnets_cidr_blocks)
     subnet_id = element(aws_subnet.public[*].id, count.index)
     route_table_id = aws_route_table.public
   
@@ -42,7 +40,7 @@ resource "aws_route_table_association" "public" {
 
 
 resource "aws_route_table_association" "private" {
-    count = length(aws_subnet.private[*].id)
+    count = length(var.private_subnets_cidr_blocks)
     subnet_id = element(aws_subnet.private[*].id, count.index)
     route_table_id = aws_route_table.private.id  
 }
