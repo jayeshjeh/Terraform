@@ -13,12 +13,12 @@ terraform {
 module "network" {
   source      = "/../modules/network/"
   cidr_block  = var.vpc_cidr
-  vpc_id      = module.vpc_id
+  vpc_id      = module.network.vpc_id
   vpc_name    = var.vpc_name
   environment = var.environment
 
-  public_subnets  = module.public_subnets_ids
-  private_subnets = module.private_subnets_ids
+  public_subnets  = module.network.public_subnets_ids
+  private_subnets = module.network.private_subnets_ids
 }
 
 module "compute" {
@@ -28,7 +28,7 @@ module "compute" {
   instance_type               = var.instance_type
   key_name                    = var.key_name
   vpc_id                      = module.vpc_id
-  public_subnets_ids          = element(module.public_subnets_ids, count.index)
+  public_subnets_ids          = module.network.public_subnets_ids
   security_group_id           = module.sg_id
   associate_public_ip_address = true
   igw_id = module.igw_id
@@ -38,13 +38,13 @@ module "compute" {
     Name = "${var.vpc_name}-public-server"
   }
 
-  depends_on = [var.elb_listener.this.id]
+  depends_on = [aws_lb_listener.this]
 }
 
 module "nat" {
   source      = "../../modules/nat/"
   environment = var.environment
-  subnet_id   = element(module.public_subnets_ids[0], count.index)
+  subnet_id   = module.network.public_subnets_ids[0]
   nat_id = module.nat_id
 }
 
