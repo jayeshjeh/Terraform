@@ -1,6 +1,6 @@
 locals {
-  ports_in  = [22, 80, 443]
-  ports_out = [22, 80, 443]
+  ports_in  = [22, 80, 443, 8080]
+  ports_out = [22, 80, 443, 8080]
 }
 
 resource "aws_security_group" "this" {

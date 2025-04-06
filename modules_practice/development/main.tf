@@ -10,8 +10,8 @@ terraform {
   }
 }
 
-module "vpc" {
-  source      = "../../modules/network"
+module "network" {
+  source      = "/../modules/network/"
   cidr_block  = var.vpc_cidr
   vpc_id      = module.vpc_id
   vpc_name    = var.vpc_name
@@ -19,14 +19,10 @@ module "vpc" {
 
   public_subnets  = module.public_subnets_ids
   private_subnets = module.private_subnets_ids
-
-  igw_id = module.igw_id
-  nat_id = module.nat_id
-  sg_id  = module.sg_id
 }
 
-module "ec2" {
-  source                      = "../../modules/compute"
+module "compute" {
+  source                      = "../../modules/compute/"
   environment                 = var.environment
   ami                         = lookup(var.amis, var.aws_region)
   instance_type               = var.instance_type
@@ -35,7 +31,9 @@ module "ec2" {
   public_subnets_ids          = element(module.public_subnets_ids, count.index)
   security_group_id           = module.sg_id
   associate_public_ip_address = true
-
+  igw_id = module.igw_id
+  nat_id = module.nat_id
+  sg_id  = module.sg_id
   tags = {
     Name = "${var.vpc_name}-public-server"
   }
@@ -44,14 +42,15 @@ module "ec2" {
 }
 
 module "nat" {
-  source      = "../../modules/nat"
+  source      = "../../modules/nat/"
   environment = var.environment
   subnet_id   = element(module.public_subnets_ids[0], count.index)
+  nat_id = module.nat_id
 }
 
 module "sg" {
-  source      = "../../modules/sg"
+  source      = "../../modules/sg/"
   environment = var.environment
   vpc_id      = module.vpc_id
-
+  sg_id = module.sg_id
 }
