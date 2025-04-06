@@ -19,8 +19,8 @@ resource "aws_iam_role" "this" {
     }
     EOF
 
-    tags = {
-        environment = var.environment
-    }
-    
+  tags = {
+    environment = var.environment
+  }
+
 }

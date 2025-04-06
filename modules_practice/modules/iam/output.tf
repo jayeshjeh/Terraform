@@ -1,6 +1,6 @@
 output "IAM_role_name" {
-    value = aws_iam_role.this.name
-  
+  value = aws_iam_role.this.name
+
 }
 
 output "IAM_role_ARN" {
