@@ -35,7 +35,7 @@ module "public_instance" {
   instance_type = var.instance_type
   subnet_ids    = module.vpc.public_subnet_ids
   sg_id         = module.sg.sg_id
-  user_data     = file("${path.module}/../../scripts/public_script.sh")
+  user_data     = file("../../scripts/public_script.sh")
 }
 
 module "private_instances" {
