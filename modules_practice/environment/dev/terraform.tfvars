@@ -15,4 +15,5 @@ private_subnets = [
   }
 ]
 
-ami = ami-0d866da98d63e2b42
+ami = "ami-0d866da98d63e2b42"
+instance_type = "t2.micro"
